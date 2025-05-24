@@ -40,6 +40,7 @@ public class AddTaskCommand implements Command {
         catch (NumberFormatException e) {
             System.out.println("Не удалось спарсить стоимость задачи");
             Task task = new Task(name);
+            taskList.add(task);
             return;
         }
 
