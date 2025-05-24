@@ -1,7 +1,6 @@
 package com.danp1t.backend.business_logic.entity;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import com.danp1t.backend.business_logic.command.ExitCommand;
 import com.danp1t.backend.business_logic.command.HelpCommand;
