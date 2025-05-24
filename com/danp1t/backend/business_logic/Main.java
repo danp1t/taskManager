@@ -7,8 +7,6 @@ import com.danp1t.backend.business_logic.interfaces.Command;
 
 import java.util.Scanner;
 
-import static com.danp1t.backend.business_logic.entity.CommandManager.getCommands;
-
 /**
  * Вспомогательный класс, который из себя представляет точку входа в программу
  */
