@@ -3,6 +3,7 @@ package com.danp1t.backend.business_logic.entity;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.danp1t.backend.business_logic.command.ExitCommand;
 import com.danp1t.backend.business_logic.command.HelpCommand;
 import com.danp1t.backend.business_logic.interfaces.Command;
 
@@ -11,7 +12,7 @@ public class CommandManager {
 
     public static HashMap<String, Command> getCommands() {
         commands.put("help", new HelpCommand());
-
+        commands.put("exit", new ExitCommand());
 
         return commands;
     }

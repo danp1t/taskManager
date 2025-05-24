@@ -24,6 +24,7 @@ public class Main {
             boolean isCommand = ValidateCommand.isCommand(commandStr);
             if (!isCommand) {
                 System.out.println("Команда не найдена");
+                continue;
             }
             commandStr = commandStr.replace("/", "");
             Command command = CommandManager.getCommands().get(commandStr);
