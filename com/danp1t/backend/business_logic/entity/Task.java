@@ -22,7 +22,7 @@ public class Task {
     private final Long taskId;
     private String name;
     private LocalDateTime deadline;
-    private Integer cost;
+    private Double cost;
     private Priority priority;
 
     /**
@@ -31,7 +31,7 @@ public class Task {
     public Task(){
         this.taskId = idCounter.getAndIncrement();
         this.name = "Без названия";
-        this.cost = 0;
+        this.cost = 0.0;
         this.deadline = null;
         this.priority = Priority.NOT_STATED;
     }
@@ -39,12 +39,12 @@ public class Task {
     public Task(String name){
         this.taskId = idCounter.getAndIncrement();
         this.name = name;
-        this.cost = 0;
+        this.cost = 0.0;
         this.deadline = null;
         this.priority = Priority.NOT_STATED;
     }
 
-    public Task(String name, Integer cost){
+    public Task(String name, Double cost){
         this.taskId = idCounter.getAndIncrement();
         this.name = name;
         this.cost = cost;
@@ -52,7 +52,7 @@ public class Task {
         this.priority = Priority.NOT_STATED;
     }
 
-    public Task(String name, Integer cost, LocalDateTime deadline){
+    public Task(String name, Double cost, LocalDateTime deadline){
         this.taskId = idCounter.getAndIncrement();
         this.name = name;
         this.cost = cost;
@@ -60,7 +60,7 @@ public class Task {
         this.priority = Priority.NOT_STATED;
     }
 
-    public Task(String name, Integer cost, LocalDateTime deadline, Priority priority){
+    public Task(String name, Double cost, LocalDateTime deadline, Priority priority){
         this.taskId = idCounter.getAndIncrement();
         this.name = name;
         this.cost = cost;
@@ -81,7 +81,7 @@ public class Task {
         return this.deadline;
     }
 
-    public Integer getCost(){
+    public Double getCost(){
         return this.cost;
     }
 
@@ -98,7 +98,7 @@ public class Task {
         this.deadline = deadline;
     }
 
-    public void setCost(Integer cost) {
+    public void setCost(Double cost) {
         this.cost = cost;
     }
 
