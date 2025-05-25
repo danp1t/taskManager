@@ -26,7 +26,6 @@ public class AddTaskCommand implements Command {
     public void run(String[] args) {
         System.out.println("Если хотите пропустить ввод значения, то нажмите ENTER");
         Scanner scanner = new Scanner(System.in);
-        ArrayList<Task> taskList = TaskList.getTaskList();
 
         System.out.print("Введите название задания: ");
         String name = scanner.nextLine();
@@ -38,9 +37,9 @@ public class AddTaskCommand implements Command {
             cost = Double.parseDouble(stringCost);
         }
         catch (NumberFormatException e) {
-            System.out.println("Не удалось спарсить стоимость задачи");
+            System.err.println("Не удалось спарсить стоимость задачи");
             Task task = new Task(name);
-            taskList.add(task);
+            TaskList.AddTask(task);
             return;
         }
 
@@ -52,9 +51,9 @@ public class AddTaskCommand implements Command {
         try {
              deadline = LocalDateTime.parse(stringDeadline, formatter);
         } catch (DateTimeParseException e) {
-            System.out.println("Не удалось спарсить дату");
+            System.err.println("Не удалось спарсить дату");
             Task task = new Task(name, cost);
-            taskList.add(task);
+            TaskList.AddTask(task);
             return;
         }
 
@@ -65,13 +64,13 @@ public class AddTaskCommand implements Command {
             priority = Priority.valueOf(stringPriority);
         }
         catch (IllegalArgumentException e) {
-            System.out.println("Не удалось спарсить приоритет задачи");
+            System.err.println("Не удалось спарсить приоритет задачи");
             Task task = new Task(name, cost, deadline);
-            taskList.add(task);
+            TaskList.AddTask(task);
             return;
         }
 
         Task task = new Task(name, cost, deadline, priority);
-        taskList.add(task);
+        TaskList.AddTask(task);
     }
 }

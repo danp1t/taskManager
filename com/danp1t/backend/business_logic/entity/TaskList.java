@@ -3,7 +3,6 @@ package com.danp1t.backend.business_logic.entity;
 import java.util.ArrayList;
 
 public class TaskList {
-    //TODO: Реализовать защиту, если превышен лимит задач
     public static final Integer MAX_COUNT_TASKS = 50;
 
     private static final ArrayList<Task> taskList = new ArrayList<Task>();
@@ -13,6 +12,11 @@ public class TaskList {
     }
 
     public static void AddTask(Task task){
-        taskList.add(task);
+        if (taskList.size() < MAX_COUNT_TASKS) {
+            taskList.add(task);
+        }
+        else {
+            System.err.println("Не удалось добавить задачу в список, так как превышен лимит количества задач для одного пользователя");
+        }
     }
 }
