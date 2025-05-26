@@ -1,5 +1,7 @@
 package com.danp1t.backend.business_logic.utils;
 
+import com.danp1t.backend.business_logic.exception.NotNegativeParam;
+
 import java.util.Scanner;
 import java.util.function.Function;
 
@@ -19,5 +21,23 @@ public class CommandUtils
                 System.out.print("Введите ещё раз: ");
             }
         }
+    }
+
+    public static Long parseTaskId(String[] args){
+        Long id = null;
+
+        try {
+            id = Long.parseLong(args[1]);
+            if (id < 0) throw new NotNegativeParam();
+        }
+        catch (NumberFormatException e) {
+            System.err.println("Не удалось сконвертировать переменную в число");
+        } catch (NotNegativeParam e) {
+            System.err.println(e.getMessage());
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.err.println("Для данной команды нужно ввести аргумент {id задачи}");
+        }
+
+        return id;
     }
 }

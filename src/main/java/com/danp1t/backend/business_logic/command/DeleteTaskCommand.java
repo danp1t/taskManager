@@ -1,13 +1,10 @@
 package com.danp1t.backend.business_logic.command;
 
-import com.danp1t.backend.business_logic.entity.Task;
 import com.danp1t.backend.business_logic.entity.TaskList;
-import com.danp1t.backend.business_logic.exception.NotNegativeParam;
 import com.danp1t.backend.business_logic.exception.TaskNotFound;
 import com.danp1t.backend.business_logic.interfaces.Command;
 
-import java.util.ArrayList;
-import java.util.Objects;
+import static com.danp1t.backend.business_logic.utils.CommandUtils.parseTaskId;
 
 public class DeleteTaskCommand implements Command {
     @Override
@@ -22,24 +19,10 @@ public class DeleteTaskCommand implements Command {
 
     @Override
     public void run(String[] args) {
-        Long id = null;
+        Long id = parseTaskId(args);
+        if (id == null) return;
 
         try {
-            id = Long.parseLong(args[1]);
-            if (id < 0) throw new NotNegativeParam();
-        }
-        catch (NumberFormatException e) {
-            System.err.println("Не удалось сконвертировать переменную в число");
-            return;
-        } catch (NotNegativeParam e) {
-            System.err.println(e.getMessage());
-            return;
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.err.println("Для данной команды нужно ввести аргумент {id задачи}");
-            return;
-        }
-
-        try{
             TaskList.getInstance().deleteTaskById(id);
             System.out.println("Задача успешно удалена!");
         }

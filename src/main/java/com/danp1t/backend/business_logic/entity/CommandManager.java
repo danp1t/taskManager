@@ -15,6 +15,7 @@ public class CommandManager {
         commands.put("add_task", new AddTaskCommand());
         commands.put("print_tasklist", new PrintTaskListCommand());
         commands.put("delete_task", new DeleteTaskCommand());
+        commands.put("edit_task", new EditTaskCommand());
 
         return commands;
 
