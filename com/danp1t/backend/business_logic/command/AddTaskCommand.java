@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class AddTaskCommand implements Command {
@@ -43,6 +44,7 @@ public class AddTaskCommand implements Command {
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         LocalDateTime deadline = CommandUtils.inputWithRetry("дату", scanner, (x)->LocalDateTime.parse(x, formatter));
 
+        System.out.println(Arrays.toString(Priority.values()));
         System.out.print("Выберете приоритет задачи: ");
         Priority priority = CommandUtils.inputWithRetry("приоритет задачи", scanner, Priority::valueOf);
 
