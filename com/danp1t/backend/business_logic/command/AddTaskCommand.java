@@ -44,7 +44,7 @@ public class AddTaskCommand implements Command {
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         LocalDateTime deadline = CommandUtils.inputWithRetry("дату", scanner, (x)->LocalDateTime.parse(x, formatter));
 
-        System.out.println(Arrays.toString(Priority.values()));
+        System.out.println("Доступные приоритеты: " + Arrays.toString(Priority.values()));
         System.out.print("Выберете приоритет задачи: ");
         Priority priority = CommandUtils.inputWithRetry("приоритет задачи", scanner, Priority::valueOf);
 
