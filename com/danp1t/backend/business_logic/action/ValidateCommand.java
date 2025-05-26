@@ -13,4 +13,7 @@ public class ValidateCommand {
         }
         return isSlash && isCommand;
     }
+    public static boolean isCommandLikeString(String command) {
+        return (command.charAt(0) == '/');
+    }
 }

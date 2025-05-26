@@ -19,6 +19,10 @@ public class Main {
             System.out.print("Введите команду: ");
             String[] commandAndTokens = scanner.nextLine().split(" ");
             String commandStr = commandAndTokens[0];
+            if(!ValidateCommand.isCommandLikeString(commandStr)){
+                System.out.println("Команда должна начинаться со слэша!");
+                continue;
+            }
             boolean isCommand = ValidateCommand.isCommand(commandStr);
             if (!isCommand) {
                 System.out.println("Команда не найдена");

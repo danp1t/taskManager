@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @since 0.0.1
  * Данный клас описывает сущность "Задача"
  */
-public class Task {
+public record Task(Long taskId, String name, Double cost, LocalDateTime deadline, Priority priority) {
     /**
      * @since 0.0.1
      * id - уникальный индетификатор задачи
@@ -19,100 +19,16 @@ public class Task {
      */
     private static final AtomicLong idCounter = new AtomicLong(0);
 
-    private final Long taskId;
-    private String name;
-    private LocalDateTime deadline;
-    private Double cost;
-    private Priority priority;
 
     /**
      * Различные конструкторы для создания объекта "Задача"
      */
-    public Task(){
-        this.taskId = idCounter.getAndIncrement();
-        this.name = "Без названия";
-        this.cost = 0.0;
-        this.deadline = null;
-        this.priority = Priority.NOT_STATED;
-    }
-
-    public Task(String name){
-        this.taskId = idCounter.getAndIncrement();
-        this.name = name;
-        this.cost = 0.0;
-        this.deadline = null;
-        this.priority = Priority.NOT_STATED;
-    }
-
-    public Task(String name, Double cost){
-        this.taskId = idCounter.getAndIncrement();
-        this.name = name;
-        this.cost = cost;
-        this.deadline = null;
-        this.priority = Priority.NOT_STATED;
-    }
-
-    public Task(String name, Double cost, LocalDateTime deadline){
-        this.taskId = idCounter.getAndIncrement();
-        this.name = name;
-        this.cost = cost;
-        this.deadline = deadline;
-        this.priority = Priority.NOT_STATED;
-    }
-
     public Task(String name, Double cost, LocalDateTime deadline, Priority priority){
-        this.taskId = idCounter.getAndIncrement();
-        this.name = name;
-        this.cost = cost;
-        this.deadline = deadline;
-        this.priority = priority;
-    }
-
-    // Getters для данного класс
-    public Long getTaskId(){
-        return this.taskId;
-    }
-
-    public String getName(){
-        return this.name;
-    }
-
-    public LocalDateTime getDeadline(){
-        return this.deadline;
-    }
-
-    public Double getCost(){
-        return this.cost;
-    }
-
-    public Priority getPriority(){
-        return this.priority;
-    }
-
-    //Setters для данного класса
-    public void setName(String name){
-        this.name = name;
-    }
-
-    public void setDeadline(LocalDateTime deadline) {
-        this.deadline = deadline;
-    }
-
-    public void setCost(Double cost) {
-        this.cost = cost;
-    }
-
-    public void setPriority(Priority priority) {
-        this.priority = priority;
-    }
-
-    @Override
-    public String toString() {
-        return "Task[" +
-                "taskId=" + taskId + ", " +
-                "name=" + name + ", " +
-                "deadline=" + deadline + ", " +
-                "cost=" + cost + ", " +
-                "priority=" + priority + "]";
+        this(idCounter.getAndIncrement(),
+                name==null ? "Без названия" : name,
+                cost==null ? 0.0 : cost,
+                deadline,
+                priority==null ? Priority.NOT_STATED : priority
+        );
     }
 }
