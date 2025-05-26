@@ -32,7 +32,9 @@ public class AddTaskCommand implements Command {
 
         System.out.print("Введите название задания: ");
         String name = scanner.nextLine();
-
+        if (name.isEmpty()){
+            name = "Без названия";
+        }
         System.out.print("Введите стоимость задачи: ");
         Double cost = CommandUtils.inputWithRetry("стоимость задачи", scanner, Double::parseDouble);
 

@@ -5,19 +5,18 @@ import java.util.function.Function;
 
 public class CommandUtils
 {
-    public static <T> T inputWithRetry(String inpName, Scanner scn, Function<String, T> parseFunc){
-
+    public static <T> T inputWithRetry(String inputName, Scanner scanner, Function<String, T> parseFunc){
 
         while(true) {
-            String inp = scn.nextLine();
+            String inp = scanner.nextLine();
             if (inp.trim().isEmpty()){
                 return null;
             }
             try {
                 return parseFunc.apply(inp);
             } catch (Exception e) {
-                System.out.println("Не удалось спарсить " + inpName);
-                System.out.println("Введите ещё раз:");
+                System.out.println("Не удалось спарсить " + inputName);
+                System.out.print("Введите ещё раз: ");
             }
         }
     }
