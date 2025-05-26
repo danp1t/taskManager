@@ -1,22 +1,64 @@
 package com.danp1t.backend.business_logic.entity;
 
+import com.danp1t.backend.business_logic.exception.TaskNotAdded;
+import com.danp1t.backend.business_logic.exception.TaskNotFound;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class TaskList {
-    public static final Integer MAX_COUNT_TASKS = 50;
 
-    private static final ArrayList<Task> taskList = new ArrayList<Task>();
+    //Целиком АСУЖДАЮ этот класс!
+    // Во-первых, лучше singleton, чем utility class.
+    // Во-вторых, Thread Safety вышло из чата.
+    // В-третьих, зачем реализовывать поиск значения в TaskList в куче мест, если тут можно написать его один раз, как и все CRUD операции?
+    // В-четвертых, почему поиск за линию среди тасок, если можно сделать его быстрее через HashMap?
+    // Ну и до кучи, если ты вдруг захочешь сделать БДшку, то тут легче повесится, чем потом это все переделать...
 
-    public static ArrayList<Task> getTaskList() {
-        return taskList;
+    private static TaskList _instance = null;
+
+    public static TaskList getInstance(){
+        if(_instance == null){
+            _instance = new TaskList();
+        }
+        return _instance;
     }
 
-    public static void AddTask(Task task){
-        if (taskList.size() < MAX_COUNT_TASKS) {
-            taskList.add(task);
+    private int MAX_COUNT_TASKS = 50;
+
+    public int getMAX_COUNT_TASKS() {
+        return MAX_COUNT_TASKS;
+    }
+
+    public synchronized void setMAX_COUNT_TASKS(int MAX_COUNT_TASKS) {
+        this.MAX_COUNT_TASKS = MAX_COUNT_TASKS;
+    }
+
+    private static final HashMap<Long,Task> taskList = new HashMap<>();
+
+    public synchronized void AddTask(Task task) throws TaskNotAdded {
+        if (taskList.size() < this.getMAX_COUNT_TASKS()) {
+            taskList.put(task.taskId(),task);
         }
         else {
-            System.err.println("Не удалось добавить задачу в список, так как превышен лимит количества задач для одного пользователя");
+            throw new TaskNotAdded();
+        }
+    }
+
+    public Task getTaskById(Long taskId) {
+        return taskList.get(taskId);
+    }
+
+    public ArrayList<Task> getAllTasks() {
+        return new ArrayList<>(taskList.values());
+    }
+
+    public synchronized void deleteTaskById(Long taskId) throws TaskNotFound {
+        if(taskList.containsKey(taskId)){
+            taskList.remove(taskId);
+        }
+        else{
+            throw new TaskNotFound();
         }
     }
 }

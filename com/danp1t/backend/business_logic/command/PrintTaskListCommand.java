@@ -19,9 +19,14 @@ public class PrintTaskListCommand implements Command {
 
     @Override
     public void run(String[] args) {
-        ArrayList<Task> taskList = TaskList.getTaskList();
-        for (Task task: taskList) {
-            System.out.println(task);
+        ArrayList<Task> taskList = TaskList.getInstance().getAllTasks();
+        if(taskList.isEmpty()){
+            System.out.println("Список задач пуст!");
+        }
+        else {
+            for (Task task : taskList) {
+                System.out.println(task);
+            }
         }
     }
 }

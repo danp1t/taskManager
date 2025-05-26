@@ -6,6 +6,7 @@ import com.danp1t.backend.business_logic.command.*;
 import com.danp1t.backend.business_logic.interfaces.Command;
 
 public class CommandManager {
+
     private static final HashMap<String, Command> commands = new HashMap<>();
 
     public static HashMap<String, Command> getCommands() {
@@ -16,5 +17,6 @@ public class CommandManager {
         commands.put("delete_task", new DeleteTaskCommand());
 
         return commands;
+
     }
 }

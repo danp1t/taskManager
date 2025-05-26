@@ -3,7 +3,10 @@ package com.danp1t.backend.business_logic.command;
 import com.danp1t.backend.business_logic.entity.Priority;
 import com.danp1t.backend.business_logic.entity.Task;
 import com.danp1t.backend.business_logic.entity.TaskList;
+import com.danp1t.backend.business_logic.exception.TaskNotAdded;
+import com.danp1t.backend.business_logic.exception.TaskNotFound;
 import com.danp1t.backend.business_logic.interfaces.Command;
+import com.danp1t.backend.business_logic.utils.CommandUtils;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -31,46 +34,24 @@ public class AddTaskCommand implements Command {
         String name = scanner.nextLine();
 
         System.out.print("Введите стоимость задачи: ");
-        String stringCost = scanner.nextLine();
-        Double cost = 0.0;
-        try {
-            cost = Double.parseDouble(stringCost);
-        }
-        catch (NumberFormatException e) {
-            System.err.println("Не удалось спарсить стоимость задачи");
-            Task task = new Task(name);
-            TaskList.AddTask(task);
-            return;
-        }
+        Double cost = CommandUtils.inputWithRetry("стоимость задачи", scanner, Double::parseDouble);
 
         //TODO: Можно сделать несколько шаблонов, чтобы пользователю было удобно вводить дату
         System.out.print("Введите дедлайн задачи в формате dd-MM-yyyy HH:mm: ");
-        String stringDeadline = scanner.nextLine();
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-        LocalDateTime deadline = null;
-        try {
-             deadline = LocalDateTime.parse(stringDeadline, formatter);
-        } catch (DateTimeParseException e) {
-            System.err.println("Не удалось спарсить дату");
-            Task task = new Task(name, cost);
-            TaskList.AddTask(task);
-            return;
-        }
+        LocalDateTime deadline = CommandUtils.inputWithRetry("дату", scanner, (x)->LocalDateTime.parse(x, formatter));
 
         System.out.print("Выберете приоритет задачи: ");
-        String stringPriority = scanner.nextLine();
-        Priority priority = Priority.NOT_STATED;
-        try {
-            priority = Priority.valueOf(stringPriority);
-        }
-        catch (IllegalArgumentException e) {
-            System.err.println("Не удалось спарсить приоритет задачи");
-            Task task = new Task(name, cost, deadline);
-            TaskList.AddTask(task);
-            return;
-        }
+        Priority priority = CommandUtils.inputWithRetry("приоритет задачи", scanner, Priority::valueOf);
 
         Task task = new Task(name, cost, deadline, priority);
-        TaskList.AddTask(task);
+
+        try {
+            TaskList.getInstance().AddTask(task);
+            System.out.println("Задача успешно добавлена!");
+        }
+        catch (TaskNotAdded e) {
+            System.err.println(e.getMessage());
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.danp1t.backend.business_logic.command;
 import com.danp1t.backend.business_logic.entity.Task;
 import com.danp1t.backend.business_logic.entity.TaskList;
 import com.danp1t.backend.business_logic.exception.NotNegativeParam;
+import com.danp1t.backend.business_logic.exception.TaskNotFound;
 import com.danp1t.backend.business_logic.interfaces.Command;
 
 import java.util.ArrayList;
@@ -21,8 +22,6 @@ public class DeleteTaskCommand implements Command {
 
     @Override
     public void run(String[] args) {
-        ArrayList<Task> taskList = TaskList.getTaskList();
-        Integer startSize = taskList.size();
         Long id = null;
 
         try {
@@ -30,21 +29,22 @@ public class DeleteTaskCommand implements Command {
             if (id < 0) throw new NotNegativeParam();
         }
         catch (NumberFormatException e) {
-            System.err.print("Не удалось сконвертировать переменную в число");
+            System.err.println("Не удалось сконвертировать переменную в число");
+            return;
         } catch (NotNegativeParam e) {
-            System.err.print(e.getMessage());
+            System.err.println(e.getMessage());
+            return;
         } catch (ArrayIndexOutOfBoundsException e) {
             System.err.println("Для данной команды нужно ввести аргумент {id задачи}");
+            return;
         }
 
-        for (int i = 0; i < taskList.size(); i++) {
-            if (Objects.equals(taskList.get(i).getTaskId(), id)) {
-                taskList.remove(i);
-                return;
-            }
+        try{
+            TaskList.getInstance().deleteTaskById(id);
+            System.out.println("Задача успешно удалена!");
         }
-        if (startSize == taskList.size()){
-            System.err.print("ID задачи не был обнаружен в списке");
+        catch (TaskNotFound e) {
+            System.err.println(e.getMessage());
         }
     }
 }
